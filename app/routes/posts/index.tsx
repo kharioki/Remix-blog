@@ -16,7 +16,7 @@ export const loader = async () => {
 };
 
 export default function Posts() {
-  const { posts } = useLoaderData() as LoaderData;
+  const { posts } = useLoaderData() as unknown as LoaderData;
 
   return (
     <main>

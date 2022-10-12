@@ -19,7 +19,7 @@ export const loader = async () => {
 export default function Index() {
   const user = useOptionalUser();
 
-  const { posts } = useLoaderData() as LoaderData;
+  const { posts } = useLoaderData() as unknown as LoaderData;
 
   // sort posts by createdAt and filter three most recent posts
   const recentPosts = posts.sort((a, b) => {

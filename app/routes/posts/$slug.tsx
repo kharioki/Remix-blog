@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async ({
 };
 
 export default function PostSlug() {
-  const { post, html } = useLoaderData() as LoaderData;
+  const { post, html } = useLoaderData() as unknown as LoaderData;
 
   return (
     <main className="mx-auto max-w-4xl">
