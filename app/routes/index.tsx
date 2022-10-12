@@ -1,9 +1,31 @@
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
 
 import { useOptionalUser } from "~/utils";
+import { getPosts } from "~/models/post.server";
+
+
+type LoaderData = {
+  // this is a handy way to say: "posts is whatever type getPosts resolves to"
+  posts: Awaited<ReturnType<typeof getPosts>>;
+};
+
+export const loader = async () => {
+  return json<LoaderData>({
+    posts: await getPosts(),
+  });
+};
 
 export default function Index() {
   const user = useOptionalUser();
+
+  const { posts } = useLoaderData() as LoaderData;
+
+  // sort posts by createdAt and filter three most recent posts
+  const recentPosts = posts.sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  }).slice(0, 3);
+
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
@@ -66,10 +88,42 @@ export default function Index() {
         <div className="mx-auto mt-16 max-w-7xl text-center">
           <Link
             to="/posts"
-            className="text-xl text-blue-600 underline"
+            className="text-xl text-yellow-600"
           >
             My Blog Posts
           </Link>
+
+          <p className="mx-auto mt-4 max-w-lg text-center text-md sm:max-w-3xl">
+            Oh, and I occassionally write stuff. See below...
+          </p>
+
+          <div className="mt-4 flex flex-wrap justify-center gap-8">
+            {recentPosts && recentPosts.map((post) => (
+                <div
+                  key={post.slug}
+                  className="m-4 p-4 text-inherit border border-gray-300 rounded-lg transition-colors duration-150 ease-in-out text-center sm:min-w-[30%] md:min-w-[25%]"
+                >
+                  <h3 className="text-xl font-bold">{post.title}</h3>
+                  <Link to={`/posts/${post.slug}`} key={post.slug}>
+                    <span className="text-yellow-600 hover:underline">Read</span>
+                  </Link>
+                </div>
+            ))}
+          </div>
+
+          <Link
+            to="/posts"
+            className="text-lg text-yellow-600 hover:underline"
+          >
+            See all posts...
+          </Link>
+        </div>
+          
+
+        <div className="mx-auto mt-16 max-w-7xl text-center">
+          <p className="text-lg">
+            Besides <span className="text-yellow-600"><a href='https://remix.run'>Remix</a></span>, I used all these cool tools to make this app:
+          </p>
         </div>
 
         <div className="mx-auto max-w-7xl py-2 px-4 sm:px-6 lg:px-8">
