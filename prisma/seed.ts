@@ -49,11 +49,11 @@ async function seed() {
         
         Isn't it great?
             `.trim(),
-          },
-          {
-            slug: "90s-mixtape",
-            title: "A Mixtape I Made Just For You",
-            markdown: `
+      },
+      {
+        slug: "90s-mixtape",
+        title: "A Mixtape I Made Just For You",
+        markdown: `
         # 90s Mixtape
         
         - I wish (Skee-Lo)
@@ -74,7 +74,7 @@ async function seed() {
         - Santa Monica (Everclear)
         - C'mon N' Ride it (Quad City DJ's)
             `.trim(),
-          },
+    },
   ];
   
   for (const post of posts) {

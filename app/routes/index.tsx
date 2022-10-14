@@ -101,7 +101,7 @@ export default function Index() {
             {recentPosts && recentPosts.map((post) => (
                 <div
                   key={post.slug}
-                  className="m-4 p-4 text-inherit border border-gray-300 rounded-lg transition-colors duration-150 ease-in-out text-center sm:min-w-[30%] md:min-w-[25%]"
+                  className="m-4 p-4 text-inherit border rounded-lg shadow-md text-center sm:min-w-[30%] md:min-w-[25%]"
                 >
                   <h3 className="text-xl font-bold">{post.title}</h3>
                   <Link to={`/posts/${post.slug}`} key={post.slug}>
